@@ -60,13 +60,24 @@ Details, differences from upstream and the known gaps are in
 | python | 3.15.0 (`%LOCALAPPDATA%\Programs\Python\Python315`) for the APEX tool and its tests |
 | GPU | RTX 4060, sm_89, CUDA 13.4 |
 
-**Two PATH traps, both measured here.** The devkitPro MSYS2 `usr\bin` is first
-on the machine PATH, so a bare `cmake`, `git` or `ninja` resolves to the MSYS
-build of the wrong version - hence the absolute paths above. It also shadows
-`cmd` itself: `cmd /c ...` from a shell finds
-`C:\Dev\devkitPro\msys2\usr\bin\cmd`, which is not the Windows command
-interpreter and silently fails to run a `.bat` or honour a redirect. Run
-`.bat` files as `C:\Windows\System32\cmd.exe /c <script>`, or directly.
+**The MSYS2 shadowing is fixed at the source.** The devkitPro MSYS2 `usr\bin`
+used to be first on the machine PATH, so a bare `git`, `cmake`, `make`, `tar`,
+`awk`, `sed`, `perl` resolved to the unix-flavoured MSYS build, and `cmd`
+itself resolved to a script named `cmd` in that directory - every `cmd /c` in a
+shell silently ran the wrong program. The estate rule is absolute paths, and
+every script here follows it, which is what kept this tree building while the
+trap stood.
+
+**Resolved 2026-10-15** (owner's decision): the machine PATH no longer has
+`C:\Dev\devkitPro\msys2\usr\bin`, and the pinned cmake (`C:\Dev\cmake\bin`) plus
+ninja (`C:\Dev\Qt\Tools\Ninja`) now sit at the front, so a bare name finds the
+right tool. Verified in a fresh environment: git resolves to
+`C:\Program Files\Git\cmd` (2.55.0), cmake to 4.4.3, and `cmd` to System32.
+devkitPro's console toolchains are untouched - they are launched through
+`msys2_shell.cmd`, which builds its own PATH (`/opt/devkitpro/tools/bin` first),
+and never inherited the machine one. **Keep the absolute paths anyway**: they
+are the estate rule, the backup of the old PATH is in the agent scratch
+directory, and the ordering can be changed again.
 
 No ROCm, no oneAPI, no WSL on this machine, so the lean build is CUDA + CPU and
 nothing else (`WANTED.md` row 5).
