@@ -15,7 +15,7 @@ file holds only what bears on Garuda.
 | 5 | Lean build: CUDA + CPU only, sm_89 | **wanted, not started** | One configure line with `GGML_CUDA` on and every other backend off, `GGML_CCACHE=OFF` on the line itself (root `AGENTS.md` 25), output to `build/Release` (42), `-j 8`. The machine has no ROCm, no oneAPI and no WSL |
 | 6 | Build for us: GitHub Actions or manual | **wanted, not started** | Owner 2026-10-15: *"we just have github build for us or we do it manually"*. A windows runner can build this tree; whether the artefact is a wheel-shaped package or the DLLs is row 4's decision |
 | 7 | One measured win | **wanted, not started** | The owner's framing: make Garuda lighter and faster. One kernel or one build-size change, measured before and after; `apex.py --estimate` is already the measuring tool for the size half |
-| 8 | Verb scripts | **partial** | `.gitignore` now allows them; the scripts themselves are not written. `test.bat` runs the APEX suite today, `build.bat` is row 5's configure line |
+| 8 | Verb scripts | **partial** | `.gitignore` now allows them; `test.bat` runs the APEX suite (53 tests, exit 0). `build.bat` is row 5's configure line and is still unwritten; `compile`/`run` follow the same shape |
 
 ## Deferred by the owner
 

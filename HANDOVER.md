@@ -67,3 +67,30 @@ compiles were started from this session and nothing under `build-CUDA` was
 touched. The conformance gate was attempted once and exceeded a 10-minute
 window with a compile live on the machine; it is re-run after the build rather
 than competing with it.
+
+## 2026-10-15 - history cleaned, measured
+
+Owner: *"clean the git history for garuda, rename master to main and remove all
+the dead/stale branches."* Local first, then the remote after the owner chose
+delete-and-recreate (8,800 individual branch/tag deletions is not a practical
+path).
+
+Measured, before and after:
+
+| | before | after |
+|---|---|---|
+| commits on the branch | 11,641 (upstream's whole history) | 1 |
+| refs | 8,838 (855 branches, 7,981 tags, upstream's branch zoo) | 1 (`refs/heads/main`) |
+| `.git` on disk | 453.7 MB | 37.3 MB (pack 36.87 MiB) |
+| remote `Rin247/Garuda` | 855 branches, 7,981 tags, a fork | private, default `main`, 1 branch, 0 tags |
+
+The 53 APEX tests were re-run on the new `main` and exit 0. The `upstream`
+remote (`ggml-org/llama.cpp`) is configured for on-demand fetches; the
+consequence is recorded in `PROJECT.md` - there is no shared ancestor, so
+updating means taking upstream's tree and re-applying the fork-local file list.
+
+Two things worth remembering from the rewrite: deleting the remote-tracking
+branches alone changed nothing on disk, because upstream's **tags** anchored
+every old commit and `gc` could not prune; and upstream's `.gitignore:4`
+ignores every `*.bat`, which is why the verb scripts needed negations before
+any of this could be committed as intended.

@@ -60,6 +60,14 @@ Details, differences from upstream and the known gaps are in
 | python | 3.15.0 (`%LOCALAPPDATA%\Programs\Python\Python315`) for the APEX tool and its tests |
 | GPU | RTX 4060, sm_89, CUDA 13.4 |
 
+**Two PATH traps, both measured here.** The devkitPro MSYS2 `usr\bin` is first
+on the machine PATH, so a bare `cmake`, `git` or `ninja` resolves to the MSYS
+build of the wrong version - hence the absolute paths above. It also shadows
+`cmd` itself: `cmd /c ...` from a shell finds
+`C:\Dev\devkitPro\msys2\usr\bin\cmd`, which is not the Windows command
+interpreter and silently fails to run a `.bat` or honour a redirect. Run
+`.bat` files as `C:\Windows\System32\cmd.exe /c <script>`, or directly.
+
 No ROCm, no oneAPI, no WSL on this machine, so the lean build is CUDA + CPU and
 nothing else (`WANTED.md` row 5).
 
