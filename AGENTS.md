@@ -259,8 +259,9 @@ operating rules, from the estate's root `AGENTS.md` and `PROJECT.md`.
 **What this fork is.** A private fork of llama.cpp that exists to be
 Prometheus's llama.cpp, with APEX quantization baked in. `PROJECT.md` carries
 the identity, the toolchain paths, the estate deviations and the fork-local
-file list; `WANTED.md` the owner's rows; `HANDOVER.md` is append-only. Read
-`PROJECT.md` before changing the build or the tooling.
+file list; `WANTED.md` the owner's rows; `HANDOVER.md` is where things stand right
+now, rewritten when the state changes (`QUIRKS.md` §52) — git holds the history.
+Read `PROJECT.md` before changing the build or the tooling.
 
 **Small diff, on purpose.** Upstream moves fast and this fork has to follow it.
 No llama.cpp or ggml source is modified: APEX lives in its own directory and

@@ -94,3 +94,28 @@ branches alone changed nothing on disk, because upstream's **tags** anchored
 every old commit and `gc` could not prune; and upstream's `.gitignore:4`
 ignores every `*.bat`, which is why the verb scripts needed negations before
 any of this could be committed as intended.
+
+2026-10-20 - the estate's other quantiser, and what llama.cpp's diffusion
+path actually covers:
+
+Recorded in `PROJECT.md` under "The other quantiser in the estate". The Forge
+(`C:\Tools\Forge`, outside the estate root) quantises diffusers-layout models
+- Anima, Qwen-Image 2.1, FLUX 3 Image Klein, MOSS-Image - into torchao
+float8, INT8, FP4 and INT4 packages, where APEX quantises GGUF for stock
+`llama-quantize`. The units differ, so the two do not overlap.
+
+Measured: `examples/diffusion/README.md` names dream7b, llada-8b and
+RND1-Base, and no "flux" appears anywhere in the tree, so llama.cpp's
+diffusion path is language-model shaped and there is no GGUF route to a DiT
+image model. FLUX 3 and MOSS-Image are diffusers models and stay on the
+diffusers route.
+
+Also measured: the Forge's FP8 package is not loadable by diffusers as it
+stands. The tensors are torchao `float8_weight_only` - a float8 weight plus
+a separate float32 scale per tensor - and the package's `config.json` carries
+no `quantization_config`, so diffusers reads float8 blobs as bf16. The
+vendors' ComfyUI `int8-convrot` files have no loader in diffusers 0.42
+either - no convrot, no SVDQuant. Neither format is the GGUF path, so
+neither changes anything in this fork.
+
+Working-tree change only (`PROJECT.md`), uncommitted. No code touched.

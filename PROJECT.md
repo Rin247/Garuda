@@ -50,6 +50,36 @@ tiers, the dense/hybrid arms, the sensitivity-fitted `opt-*` allocations.
 Details, differences from upstream and the known gaps are in
 `tools/quantize/apex/README.md`.
 
+## The other quantiser in the estate
+
+The Forge (`C:\Tools\Forge`, outside the estate root) is the second one, and
+it does a different job. APEX quantises **GGUF** models for stock
+`llama-quantize`; the Forge quantises **diffusers-layout** models - Anima,
+Qwen-Image 2.1, FLUX 3 Image Klein, MOSS-Image - into torchao float8, INT8,
+FP4 and INT4 packages, one directory per format under
+`C:\Tools\Forge\quant_lab`. The two do not overlap: APEX's unit is a tensor
+role inside a GGUF block, the Forge's unit is a component directory in a
+diffusers repository.
+
+Measured 2026-10-20, and it is why the image models are not this fork's
+business: **llama.cpp's diffusion path is language-model shaped.**
+`examples/diffusion/README.md` names dream7b, llada-8b and RND1-Base, and no
+"flux" appears anywhere in the tree. FLUX 3 is a denoiser-and-encoder image
+model, so there is no GGUF conversion for it and APEX has nothing to
+allocate. The image models go through diffusers and the Forge, and the work
+Prometheus's Studio does with them.
+
+One finding from that route is worth recording here, because it is the shape
+of the problem APEX would meet if a GGUF image model ever arrived: **the
+Forge's packages are not loadable by diffusers as they stand.** The
+quantised tensors are torchao `float8_weight_only` - a float8 weight and a
+separate float32 scale per tensor - and the package's `config.json` carries
+no `quantization_config`, so diffusers reads the float8 blobs as if they were
+bf16. The vendors' own ComfyUI `int8-convrot` files are no better inside
+diffusers: 0.42 has no convrot and no SVDQuant loader. Both formats are one
+metadata line and one dequantiser away from working, and neither is the GGUF
+path, so neither touches this fork.
+
 ## Toolchain
 
 | tool | path |
@@ -127,3 +157,11 @@ nothing. The negations are in the diff table above.
   CTest, and the conformance gate. The gate was started on 2026-10-15 and
   exceeded a 10-minute window while a compile was live on this machine; a
   measurement taken during a build is not evidence, so it is re-run after.
+
+## The x86-64 floor
+
+Native code here is built for **x86-64-v3** (AVX2) and for **v4** (AVX-512),
+and nothing older is supported - `WANTED.md` row 34 is the authority. The
+build carries it in `CMakeLists.txt:6`: `X86_ISA` is a CMake cache variable, `v3` by
+default, and `-DX86_ISA=v4` builds the AVX-512 variant - which does not run
+on this machine, because the guest CPU has no AVX-512 (measured 2026-10-20).

@@ -1,5 +1,33 @@
 cmake_minimum_required(VERSION 3.14...3.28) # for add_link_options and implicit target directories.
 project("llama.cpp" C CXX)
+
+# Estate decision, WANTED.md row 34: the x86-64 floor is v3, and -DX86_ISA=v4 builds AVX-512.
+# MSVC has no -march, so the levels are /arch:AVX2 and /arch:AVX512, and off x86 the block skips.
+set(X86_ISA "v3" CACHE STRING "x86-64 microarchitecture level: v3 or v4")
+set_property(CACHE X86_ISA PROPERTY STRINGS v3 v4)
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|amd64)$")
+    set(GGML_NATIVE OFF CACHE BOOL "" FORCE)
+    set(GGML_AVX2   ON  CACHE BOOL "" FORCE)
+    if(X86_ISA STREQUAL "v3")
+        set(GGML_AVX512 OFF CACHE BOOL "" FORCE)
+        if(MSVC)
+            add_compile_options("$<$<COMPILE_LANGUAGE:C,CXX>:/arch:AVX2>")
+        else()
+            add_compile_options("$<$<COMPILE_LANGUAGE:C,CXX>:-march=x86-64-v3>")
+        endif()
+    elseif(X86_ISA STREQUAL "v4")
+        set(GGML_AVX512 ON CACHE BOOL "" FORCE)
+        if(MSVC)
+            add_compile_options("$<$<COMPILE_LANGUAGE:C,CXX>:/arch:AVX512>")
+        else()
+            add_compile_options("$<$<COMPILE_LANGUAGE:C,CXX>:-march=x86-64-v4>")
+        endif()
+    else()
+        message(FATAL_ERROR "X86_ISA must be v3 or v4, not '${X86_ISA}'")
+    endif()
+    message(STATUS "Garuda: x86-64 ISA level = ${X86_ISA}")
+endif()
+
 include(CheckIncludeFileCXX)
 
 ### llama.cpp version
