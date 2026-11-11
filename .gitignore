@@ -2,6 +2,15 @@
 
 *.a
 *.bat
+# The estate's build entry point is a .bat, and upstream's blanket *.bat rule
+# would leave this fork with no committed way to build.
+!AIO.bat
+!AIO-win.bat
+!AIO-linux.bat
+!AIO-android.bat
+!aio-win.bat
+!aio-linux.bat
+!aio-android.bat
 *.bin
 *.d
 *.dll
