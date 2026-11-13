@@ -205,7 +205,7 @@ left in the project root.
 
 ## Autonomy (estate rule)
 
-**Audit, then the numbered to-do list, then the work** — executed in order, never reported and abandoned. Decide and record (`NOTES.md`, the plan) instead of asking: a question is a defect unless the answer is an owner-only decision (scope, an irreversible or destructive act, spending, deleting a document), and even then you state the recommendation and the default you will take and keep working. Never ask "may I", "shall I", "what next" or "ready to proceed?", and never end a step by handing control back — report it, then take the next unchecked item. Skip an item only when it needs that owner decision, and record the skip and its reason. Authority: root `AGENTS.md` `## Autonomy`.
+**Audit, then the numbered to-do list, then the work** — executed in order, never reported and abandoned. Decide and record (`NOTES.md`, the plan) instead of asking: a question is a defect unless the answer is an owner-only decision (scope, an irreversible or destructive act, spending, deleting a document), and even then you state the recommendation and the default you will take and keep working. Never ask "may I", "shall I", "what next" or "ready to proceed?", and never end a step by handing control back — report it, then take the next unchecked item. Skip an item only when it needs that owner decision, and record the skip and its reason. Clear the list as you go: a finished item is deleted, so the list shows only what remains. Authority: root `AGENTS.md` `## Autonomy`.
 
 ## Plans (estate rule)
 
