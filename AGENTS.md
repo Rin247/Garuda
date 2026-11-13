@@ -205,12 +205,7 @@ left in the project root.
 
 ## Autonomy (estate rule)
 
-Agents decide and continue; they do not ask for decisions already inferable from
-the codebase or estate patterns. After completing X, check whether Y or Z is
-still pending and proceed to the next pending item without waiting for
-confirmation. Record decisions in the project's NOTES.md. Maintain a todo list
-for multi-step work and never ask "may I" or "what next" when the next step is
-inferable. Applies to every project and every agent.
+**Audit, then the numbered to-do list, then the work** — executed in order, never reported and abandoned. Decide and record (`NOTES.md`, the plan) instead of asking: a question is a defect unless the answer is an owner-only decision (scope, an irreversible or destructive act, spending, deleting a document), and even then you state the recommendation and the default you will take and keep working. Never ask "may I", "shall I", "what next" or "ready to proceed?", and never end a step by handing control back — report it, then take the next unchecked item. Skip an item only when it needs that owner decision, and record the skip and its reason. Authority: root `AGENTS.md` `## Autonomy`.
 
 ## Plans (estate rule)
 
