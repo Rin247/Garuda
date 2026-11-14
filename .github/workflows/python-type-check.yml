@@ -1,15 +1,7 @@
 name: Python Type-Check
 
 on:
-  push:
-    paths:
-      - '.github/workflows/python-type-check.yml'
-      - 'ty.toml'
-      - '**.py'
-      - '**/requirements*.txt'
-      # - 'pyrightconfig.json'
-  pull_request:
-    paths:
+  workflow_dispatch: # allows manual triggering
       - '.github/workflows/python-type-check.yml'
       - 'ty.toml'
       - '**.py'

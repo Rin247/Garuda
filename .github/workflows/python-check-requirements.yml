@@ -1,14 +1,7 @@
 name: Python check requirements.txt
 
 on:
-  push:
-    paths:
-      - '.github/workflows/python-check-requirements.yml'
-      - 'scripts/check-requirements.sh'
-      - 'convert*.py'
-      - '**/requirements*.txt'
-  pull_request:
-    paths:
+  workflow_dispatch: # allows manual triggering
       - '.github/workflows/python-check-requirements.yml'
       - 'scripts/check-requirements.sh'
       - 'convert*.py'

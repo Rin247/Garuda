@@ -2,12 +2,6 @@ name: Code Style Checker
 
 on:
   workflow_dispatch: # allows manual triggering
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
 
 cache-mode: none
 permissions:

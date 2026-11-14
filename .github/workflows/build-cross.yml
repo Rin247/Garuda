@@ -3,13 +3,6 @@ on:
   # only manual triggers due to low-importance of the workflows
   # TODO: for regular runs, provision dedicated self-hosted runners
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths: [
-      '.github/workflows/build-cross.yml',
-      'ggml/src/spacemit/*',
-      'ggml/src/arch/loongarch/*'
     ]
 
 cache-mode: none

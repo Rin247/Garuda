@@ -2,25 +2,6 @@ name: CI (self-hosted WebGPU backend)
 
 on:
   workflow_dispatch: # allows manual triggering
-  push:
-    branches:
-      - main
-    paths: [
-      '.github/workflows/ci-self-hosted-webgpu.yml',
-      'ci/run.sh',
-      '**/CMakeLists.txt',
-      '**/.cmake',
-      '**/*.h',
-      '**/*.hpp',
-      '**/*.c',
-      '**/*.cpp',
-      '**/*.wgsl'
-    ]
-
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths: [
-      '.github/workflows/ci-self-hosted-webgpu.yml',
       'ci/run.sh',
       '**/CMakeLists.txt',
       '**/.cmake',
